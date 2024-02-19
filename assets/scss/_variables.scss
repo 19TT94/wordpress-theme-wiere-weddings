@@ -1,0 +1,64 @@
+@import url("https://fonts.googleapis.com/css2?family=Nanum+Brush+Script&family=Nothing+You+Could+Do&family=Roboto:wght@700&display=swap");
+
+$roboto: "Roboto", sans-serif;
+$nanum: "Nanum Brush Script", cursive;
+
+$font: $roboto;
+$font-secondary: $nanum;
+
+$shadow: 0 0 35px rgba(0, 0, 0, 1);
+
+// Pallet
+$black: #1c1c1c;
+$white: #ffffff;
+$gray: #eef0f2;
+$pink: #fae8eb;
+
+// Colors
+$primary: $white;
+$secondary: $gray;
+$tertiary: $black;
+$accent: $pink;
+
+// Layout
+$pad: 30px;
+$radius: 10px;
+
+// Layers
+$menuIcons: 4;
+$menu: 3;
+$front: 2;
+$default: 1;
+$base: 0;
+$back: -1;
+
+$nav: 75px;
+$nav-admin: 46px;
+
+// Colors
+// $white: #F4F9FF;
+$white: #fff;
+$black: #0b0c12;
+$blue: #1c316d;
+$red: #8d1924;
+$lightBlue: #dcf9fd;
+$yellow: #ffc300;
+
+$overlay-black: rgba(0, 0, 0, 0.5);
+$overlay-white: rgba(225, 225, 225, 0.5);
+
+// Color Settings
+$primary: $blue;
+$secondary: $red;
+$background: $white;
+
+// Mixins
+@mixin absolute-cover() {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}

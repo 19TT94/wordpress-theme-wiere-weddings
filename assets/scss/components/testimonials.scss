@@ -1,0 +1,65 @@
+.testimonials {
+  position: relative;
+  width: 100%;
+  height: 400px;
+  background: $blue;
+
+  .slide {
+    opacity: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    align-items: center;
+    pointer-events: none;
+    transition: 0.5s ease;
+    @include absolute-cover();
+
+    .content {
+      opacity: 0;
+      margin: 0 auto;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: 0.5s;
+      overflow: hidden;
+
+      p {
+        position: relative;
+        color: $white;
+        margin: 0 $pad;
+        text-align: center;
+        max-width: 75%;
+    
+        span {
+          position: absolute;
+          top: -40px;
+          color: $red;
+          @include strong();
+        }
+    
+        .left {
+          left: -$pad;
+        }
+    
+        .right {
+          right: -$pad;
+        }
+      }
+    }
+
+    &.active {
+      opacity: 1;
+      z-index: $base;
+      pointer-events: initial;
+
+      .content {
+        opacity: 1;
+        transition-delay: 0.5s;
+      }
+    }
+  }
+}

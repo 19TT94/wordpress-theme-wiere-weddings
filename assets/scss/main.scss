@@ -1,0 +1,18 @@
+@import url('https://fonts.googleapis.com/css?family=Work+Sans:200,300,400');
+
+// Settings
+@import "style/all";
+
+// Gobal
+@import "variables";
+@import "settings";
+@import "elements";
+
+// Components
+@import "components/nav-bar.scss";
+@import "components/home.scss";
+@import "components/player.scss";
+@import "components/slider.scss";
+@import "components/testimonials.scss";
+@import "components/about.scss";
+@import "components/footer.scss";

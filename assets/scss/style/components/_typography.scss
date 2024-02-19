@@ -1,0 +1,46 @@
+@mixin quiet() {
+  font-size: 16px;
+  line-height: 1.4;
+  letter-spacing: 0.75px;
+}
+
+@mixin normal() {
+  font-size: 18px;
+  line-height: 1.4;
+  letter-spacing: 0.75px;
+}
+
+@mixin bold() {
+  font-size: 24px;
+  line-height: 1.4;
+  letter-spacing: 0.02em; // ems for letter-spacing 'kearning'
+  font-weight: 400;
+}
+
+@mixin strong() {
+  font-size: 40px;
+  line-height: 1.4;
+
+  @include bp(1) {
+    font-size: 55px;
+  }
+}
+
+@mixin loud() {
+  font-size: 50px;
+  line-height: 1.4; // no units on line-height
+
+
+  @include bp(1) {
+    font-size: 80px;
+  }
+
+  // smaller on iphone 5
+  @media (max-width: 374px) {
+    font-size: 30px;
+  }
+
+  @include bp(1) {
+    font-size: 100px;
+  }
+}
