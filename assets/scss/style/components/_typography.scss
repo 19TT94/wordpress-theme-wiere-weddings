@@ -1,46 +1,56 @@
+@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@300&display=swap");
+
+/** TYPE PATTERNS **/
 @mixin quiet() {
-  font-size: 16px;
+  font-size: 12px;
   line-height: 1.4;
   letter-spacing: 0.75px;
+
+  @include bp(1) {
+    font-size: 16px;
+  }
 }
 
 @mixin normal() {
-  font-size: 18px;
-  line-height: 1.4;
+  font-size: 14px;
+  line-height: 2;
   letter-spacing: 0.75px;
+
+  @include bp(1) {
+    font-size: 20px;
+  }
 }
 
 @mixin bold() {
-  font-size: 24px;
+  font-size: 20px;
   line-height: 1.4;
-  letter-spacing: 0.02em; // ems for letter-spacing 'kearning'
+  letter-spacing: 0.02em;
   font-weight: 400;
+
+  @include bp(1) {
+    font-size: 26px;
+  }
 }
 
 @mixin strong() {
-  font-size: 40px;
-  line-height: 1.4;
+  font-size: 28px;
+  line-height: 2; // no units on line-height
 
   @include bp(1) {
-    font-size: 55px;
+    font-size: 32px;
   }
 }
 
 @mixin loud() {
-  font-size: 50px;
-  line-height: 1.4; // no units on line-height
-
-
-  @include bp(1) {
-    font-size: 80px;
-  }
+  font-size: 52px;
+  line-height: 2; // no units on line-height
 
   // smaller on iphone 5
   @media (max-width: 374px) {
-    font-size: 30px;
+    font-size: 60px;
   }
 
   @include bp(1) {
-    font-size: 100px;
+    font-size: 75px;
   }
 }

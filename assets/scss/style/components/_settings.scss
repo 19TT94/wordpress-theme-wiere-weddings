@@ -1,0 +1,54 @@
+h1 {
+  @include loud();
+  color: $primary;
+}
+
+h2 {
+  @include strong();
+  color: $primary;
+}
+
+h3 {
+  @include bold();
+  color: $primary;
+}
+
+p,
+a,
+label,
+button,
+li {
+  @include normal();
+  color: $primary;
+}
+
+label {
+  min-width: 50px;
+}
+
+input,
+textarea {
+  width: 100%;
+  border: 2px solid $primary;
+  padding: calc($pad/2);
+}
+
+input[type="radio"] {
+  min-width: 50px;
+}
+
+input[type="checkbox"] {
+  min-width: 50px;
+}
+
+.button-full,
+.link {
+  width: 100%;
+  background: $primary;
+  padding: calc($pad/2) $pad;
+  color: $secondary;
+}
+
+.page {
+  position: relative;
+}

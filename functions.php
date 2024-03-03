@@ -48,24 +48,35 @@
 
   // Disable Posts  
   function my_remove_menu_pages() {
-      remove_menu_page("edit.php");
-      remove_menu_page("edit-comments.php");  
+    // remove_menu_page("index.php");                  //Dashboard
+    remove_menu_page("edit.php?post_type=page");    // Pages
+    remove_menu_page("edit.php");                   // Posts
+    remove_menu_page("edit-comments.php");          // Comments
+    // remove_menu_page("themes.php");                 // Appearance
+    remove_menu_page("plugins.php");                // Plugins
+    // remove_menu_page("users.php");                  // Users
+    // remove_menu_page("tools.php");                  // Tools
+    remove_menu_page("options-general.php");        // Settings
+       
   }
 
   add_action( "admin_menu", "my_remove_menu_pages" );
 
-  // Menu
-  function template_menus() {
-    $locations = array(
-      "primary" => "Primary Menu Bar"
-    );
-
-    register_nav_menus($locations);
+  // Theme Nav Customization
+  function disable_code_edit_action() {
+    define("DISALLOW_FILE_EDIT", TRUE);
   }
 
-  add_action("init", "template_menus");
+  add_action('init','disable_code_edit_action');
 
-  // Custom Post Types
+  function remove_customizer_settings( $wp_customize ){
+    $wp_customize->remove_panel("nav_menus");
+    $wp_customize->remove_section("custom_css");
+  }
+
+  add_action( 'customize_register', 'remove_customizer_settings', 20 );
+
+  // Custom Post Type -> SLIDER
   function slider() {    
     $args = array(
       "labels" => array(
@@ -73,7 +84,7 @@
       ),
       "menu_icon" => "dashicons-images-alt2",
       "public" => true,
-      'show_in_rest' => true,
+      "show_in_rest" => true,
       "has_archive" => true,
       "supports" => array("title", "thumbnail"),
       "publicly_queryable" => false
@@ -84,6 +95,48 @@
 
   add_action("init", "slider");
 
+  function get_rest_featured_image( $object, $field_name, $request ) {
+    if( $object['featured_media'] ) {
+        $img = wp_get_attachment_image_src( $object['featured_media'], 'app-thumb' );
+        return $img[0];
+    }
+    return false;
+  }
+
+  function register_rest_images(){
+    register_rest_field(array('slide'),
+        'featured_media_link',
+        array(
+            'get_callback'    => 'get_rest_featured_image',
+            'update_callback' => null,
+            'schema'          => null,
+        )
+    );
+  }
+
+  add_action('rest_api_init', 'register_rest_images' );
+ 
+  // Custom Post Type -> HOME PAGE CONTENT
+  function home_content() {    
+    $args = array(
+      "labels" => array(
+        "name" => "Home Content"
+      ),
+      "menu_icon" => "dashicons-admin-comments",
+      "public" => true,
+      "show_in_rest" => true,
+      "has_archive" => true,
+      "supports" => array("title", "excerpt"),
+      "publicly_queryable" => false
+    );
+
+    register_post_type("home_content", $args);
+  }
+
+  add_action("init", "home_content");
+
+
+  // Custom Post Type -> TESTIMONIALS
   function testimonial() {    
     $args = array(
       "labels" => array(
@@ -91,6 +144,7 @@
       ),
       "menu_icon" => "dashicons-admin-comments",
       "public" => true,
+      "show_in_rest" => true,
       "has_archive" => true,
       "supports" => array("title", "excerpt"),
       "publicly_queryable" => false
@@ -101,24 +155,4 @@
 
   add_action("init", "testimonial");
   
-  function get_rest_featured_image( $object, $field_name, $request ) {
-      if( $object['featured_media'] ) {
-          $img = wp_get_attachment_image_src( $object['featured_media'], 'app-thumb' );
-          return $img[0];
-      }
-      return false;
-  }
-
-  function register_rest_images(){
-      register_rest_field(array('slide'),
-          'featured_media_link',
-          array(
-              'get_callback'    => 'get_rest_featured_image',
-              'update_callback' => null,
-              'schema'          => null,
-          )
-      );
-  }
-
-  add_action('rest_api_init', 'register_rest_images' );
 ?>
