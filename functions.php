@@ -126,7 +126,7 @@
       "public" => true,
       "show_in_rest" => true,
       "has_archive" => true,
-      "supports" => array("title", "excerpt"),
+      "supports" => array("title"),
       "publicly_queryable" => false
     );
 
@@ -135,6 +135,46 @@
 
   add_action("init", "home_content");
 
+  function wporg_custom_box_html( $post ) {
+    $value = get_post_meta( $post->ID, '_wporg_meta_key', true );
+    ?>
+    <label for="wporg_field">Type</label>
+    <br />
+    <select name="wporg_field" id="wporg_field" class="postbox">
+      <option value="">Select...</option>
+      <option value="text" <?php selected( $value, 'text' ); ?>>Text Centered</option>
+      <option value="callout" <?php selected( $value, 'callout' ); ?>>Callout</option>
+      <option value="block-left" <?php selected( $value, 'block-left' ); ?>>Block Left</option>
+      <option value="block-right" <?php selected( $value, 'block-right' ); ?>>Block Right</option>
+    </select>
+    <?php
+  }
+
+  function wporg_add_custom_box() {
+    $screens = [ 'home_content' ];
+    foreach ( $screens as $screen ) {
+      add_meta_box(
+        'wporg_box_id', // Unique ID
+        'Content', // Box title
+        'wporg_custom_box_html',  // Content callback, must be of type callable
+        $screen // Post type
+      );
+    }
+  }
+
+  add_action( 'add_meta_boxes', 'wporg_add_custom_box' );
+
+  function wporg_save_postdata( $post_id ) {
+    if ( array_key_exists( 'wporg_field', $_POST ) ) {
+      update_post_meta(
+        $post_id,
+        '_wporg_meta_key',
+        $_POST['wporg_field']
+      );
+    }
+  }
+
+  add_action( 'save_post', 'wporg_save_postdata' );
 
   // Custom Post Type -> TESTIMONIALS
   function testimonial() {    
