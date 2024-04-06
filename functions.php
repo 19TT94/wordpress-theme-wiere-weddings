@@ -25,7 +25,7 @@
     wp_enqueue_style("template-sass", get_template_directory_uri() . "/dist/main.css", array(), $version, "all");
   }
 
-  function add_type_attribute($tag, $handle, $src) {
+  function add_type_attribute_to_main($tag, $handle, $src) {
     // if not your script, do nothing and return original $tag
     if ( "main" !== $handle ) {
         return $tag;
@@ -36,9 +36,10 @@
   }
 
   function register_scripts() {
-    wp_enqueue_script("vue", "https://cdn.jsdelivr.net/npm/vue@3", null, null, true);
-    wp_enqueue_script("main", get_template_directory_uri() . "/assets/js/main.ts", "main", null, true);
-    add_filter("script_loader_tag", "add_type_attribute" , 10, 3);
+    // TODO: try upgrading to vue3
+    wp_enqueue_script("vue", "https://cdn.jsdelivr.net/npm/vue@2", null, null, true);
+    wp_enqueue_script("main", get_template_directory_uri() . "/dist/main.js", "main", null, true);
+    add_filter("script_loader_tag", "add_type_attribute_to_main" , 10, 3);
   }
 
   add_action( "wp_enqueue_scripts", function() {
@@ -96,14 +97,14 @@
   add_action("init", "slider");
 
   function get_rest_featured_image( $object, $field_name, $request ) {
-    if( $object['featured_media'] ) {
+    if ( $object['featured_media'] ) {
         $img = wp_get_attachment_image_src( $object['featured_media'], 'app-thumb' );
         return $img[0];
     }
     return false;
   }
 
-  function register_rest_images(){
+  function register_rest_images() {
     register_rest_field(array('slide'),
         'featured_media_link',
         array(
@@ -115,8 +116,24 @@
   }
 
   add_action('rest_api_init', 'register_rest_images' );
- 
+
   // Custom Post Type -> HOME PAGE CONTENT
+  function add_type_attribute_to_admin($tag, $handle, $src) {
+    // if not your script, do nothing and return original $tag
+    if ( "admin" !== $handle ) {
+        return $tag;
+    }
+    // change the script tag by adding type="module" and return it.
+    $tag = '<script type="module" src="' . esc_url( $src ) . '"></script>';
+    return $tag;
+  }
+
+  function load_custom_js() {
+    wp_enqueue_script("admin-js", get_template_directory_uri() . '/dist/admin.js', array('jquery'), null, true);
+  }
+
+  add_action( 'admin_enqueue_scripts', 'load_custom_js' );
+
   function home_content() {    
     $args = array(
       "labels" => array(
@@ -126,7 +143,7 @@
       "public" => true,
       "show_in_rest" => true,
       "has_archive" => true,
-      "supports" => array("title", "excerpt"),
+      "supports" => array("title", "thumbnail"),
       "publicly_queryable" => false
     );
 
@@ -136,23 +153,7 @@
   add_action("init", "home_content");
 
   function ww_custom_box_html( $post ) {
-    $value = get_post_meta( $post->ID, '_wporg_meta_key', true );
-    ?>
-    <label for="ww_field_type">Type</label>
-    <br />
-    <select name="ww_field_type" id="ww_field_type" class="postbox">
-      <option value="">Select...</option>
-      <option value="text" <?php selected( $value, 'text' ); ?>>Text Centered</option>
-      <option value="callout" <?php selected( $value, 'callout' ); ?>>Callout</option>
-      <option value="block-left" <?php selected( $value, 'block-left' ); ?>>Block Left</option>
-      <option value="block-right" <?php selected( $value, 'block-right' ); ?>>Block Right</option>
-    </select>
-    <br />
-    <?php if($value == "block-left" || $value == "block-right"): ?>
-      <p><?= $value ?>: should allow list</p>
-    <?php endif; ?>
-    <?php get_template_part("template-parts/inputPost"); ?>
-    <?php
+    get_template_part("template-parts/inputPost");
   }
 
   function ww_add_custom_box() {
@@ -170,16 +171,26 @@
   add_action( 'add_meta_boxes', 'ww_add_custom_box' );
 
   function ww_save_postdata( $post_id ) {
-    if ( array_key_exists( 'ww_field_type', $_POST ) ) {
+    if ( array_key_exists( 'hc_field_type', $_POST ) ) {
       update_post_meta(
         $post_id,
-        '_wporg_meta_key',
-        $_POST['ww_field_type']
+        'meta_type_key',
+        $_POST['hc_field_type']
+      );
+    }
+
+    if ( array_key_exists( 'hc_field_paragraph', $_POST ) ) {
+      update_post_meta(
+        $post_id,
+        'meta_paragraph_key',
+        $_POST['hc_field_paragraph']
       );
     }
   }
 
   add_action( 'save_post', 'ww_save_postdata' );
+
+
 
   // Custom Post Type -> TESTIMONIALS
   function testimonial() {    
