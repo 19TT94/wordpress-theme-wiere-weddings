@@ -186,6 +186,14 @@
         $_POST['hc_field_paragraph']
       );
     }
+
+    if ( array_key_exists( 'hc_field_list_items', $_POST ) ) {
+      update_post_meta(
+        $post_id,
+        'meta_list_key',
+        $_POST['hc_field_list_items']
+      );
+    }
   }
 
   add_action( 'save_post', 'ww_save_postdata' );

@@ -15,13 +15,13 @@
 </select>
 <br />
 
-<div class="field-wrapper" >
-    <textarea name="hc_field_paragraph" id="hc_field_paragraph"><?php $paragraph ?></textarea>
+<div class="field-wrapper">
+    <textarea name="hc_field_paragraph" id="hc_field_paragraph"><?= $paragraph ?></textarea>
 </div>
 
-<div class="field-wrapper" id="hc_field_list">
-    <input type="text" name="hc_field_list_item_1" id="hc_field_list_item_1" value="<?php $list ?>"  />
-    <input type="text" name="hc_field_list_item_2" id="hc_field_list_item_2" value="<?php $list ?>"  />
-    <input type="text" name="hc_field_list_item_3" id="hc_field_list_item_3" value="<?php $list ?>"  />
-</div>
+<div class="field-wrapper" id="hc_field_list"></div>
+
+<button type="button" id="add_bullet">Add Bullet</button>
+
+<textarea name="hc_field_list_items" id="hc_field_list_items" hidden><?= $list ?></textarea>
 
