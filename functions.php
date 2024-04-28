@@ -198,7 +198,22 @@
 
   add_action( 'save_post', 'ww_save_postdata' );
 
+  function get_meta( $data ) {
+    return get_post_meta( $data['id'], '', '' );
+  }
 
+  function register_home_content() {
+    register_rest_field(array('home_content'),
+        'meta',
+        array(
+            'get_callback'    => 'get_meta',
+            'update_callback' => null,
+            'schema'          => null,
+        )
+    );
+  }
+
+  add_action('rest_api_init', 'register_home_content' );
 
   // Custom Post Type -> TESTIMONIALS
   function testimonial() {    
