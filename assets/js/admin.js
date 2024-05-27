@@ -4,12 +4,16 @@
 const selector = document.getElementById("hc_field_type");
 const paragraph = document.getElementById("hc_field_paragraph");
 const list = document.getElementById("hc_field_list");
+const addButton = document.getElementById("add_bullet");
 
 const { value } = selector;
 paragraph.style.display = ["text", "callout"].includes(value)
   ? "block"
   : "none";
 list.style.display = ["block-left", "block-right"].includes(value)
+  ? "block"
+  : "none";
+addButton.style.display = ["block-left", "block-right"].includes(value)
   ? "block"
   : "none";
 
@@ -28,13 +32,12 @@ selector.addEventListener("change", selectPostType);
 
 // Handle Blocks (Bullets)
 const bulletWrapper = document.getElementById("hc_field_list");
-const addButton = document.getElementById("add_bullet");
 const hidden = document.getElementById("hc_field_list_items");
 
 const values = {};
 
 const appendBullet = ({ target: { id, value } }) => {
-  const current = JSON.parse(hidden.value);
+  const current = hidden.value ? JSON.parse(hidden.value) : {};
   values[id] = value;
   hidden.value = JSON.stringify({ ...current, ...values });
 };
@@ -58,7 +61,7 @@ const addBullet = () => {
 
 const initializeBullets = () => {
   // create first input
-  if (hidden.value === "") {
+  if (!hidden.value || hidden.value === "") {
     const first = createInput();
     bulletWrapper.appendChild(first);
   } else {

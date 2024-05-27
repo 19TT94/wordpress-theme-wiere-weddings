@@ -4,6 +4,8 @@
     $list = get_post_meta( $post->ID, 'meta_list_key', true );
 ?>
 
+<!-- Show Title Checkbox -->
+
 <label for="hc_field_type">Type</label>
 <br />
 <select name="hc_field_type" id="hc_field_type" class="postbox">
