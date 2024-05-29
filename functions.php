@@ -82,11 +82,20 @@
   });
 
   // Admin
-  function load_custom_js() {
+  function register_admin_style() {
+    // declared in style.css comments
+    $version = wp_get_theme()->get('Version');
+    wp_enqueue_style('template-sass', get_template_directory_uri() . '/dist/admin.css', array(), $version, 'all');
+  }
+
+  function register_admin_scripts() {
     wp_enqueue_script('admin-js', get_template_directory_uri() . '/dist/admin.js', array('jquery'), null, true);
   }
 
-  add_action( 'admin_enqueue_scripts', 'load_custom_js' );
+  add_action('admin_enqueue_scripts', function() {
+    register_admin_style();
+    register_admin_scripts();
+  });
 
   /**************/
   /* Post Types */

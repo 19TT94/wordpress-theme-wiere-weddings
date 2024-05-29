@@ -6,7 +6,7 @@
 
 <!-- Show Title Checkbox -->
 
-<label for="hc_field_type">Type</label>
+<label for="hc_field_type" id="hc_field_label">Type</label>
 <br />
 <select name="hc_field_type" id="hc_field_type" class="postbox">
     <option value="">Select...</option>
