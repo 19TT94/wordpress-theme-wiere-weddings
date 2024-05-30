@@ -43,12 +43,12 @@ const appendBullet = ({ target: { id, value } }) => {
 };
 
 const createInput = () => {
-  const input = document.createElement("input");
-  input.type = "text";
+  const input = document.createElement("textarea");
   const index = bulletWrapper.children.length + 1;
+  input.placeholder = `Bullet ${index}`;
   input.setAttribute("name", `hc_field_list_item_${index}`);
   input.setAttribute("id", `hc_field_list_item_${index}`);
-  input.addEventListener("input", appendBullet);
+  input.addEventListener("textarea", appendBullet);
   return input;
 };
 
