@@ -1,5 +1,3 @@
-// TODO: add css for initial hide states
-
 // Handle Field Type Dropdown
 const selector = document.getElementById("hc_field_type");
 const paragraph = document.getElementById("hc_field_paragraph");
@@ -22,9 +20,11 @@ const selectPostType = ({ target: { value } }) => {
   if (["text", "callout"].includes(value)) {
     paragraph.style.display = "block";
     list.style.display = "none";
+    list.innerHTML = "";
   } else {
     paragraph.style.display = "none";
     list.style.display = "block";
+    paragraph.innerHTML = "";
   }
 };
 
