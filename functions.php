@@ -161,8 +161,6 @@
 
   add_action('init', 'home_content');
 
-  
-
   // Custom Post Type -> ABOUT
   function about() {    
     $args = array(
@@ -193,7 +191,7 @@
       'public' => true,
       'show_in_rest' => true,
       'has_archive' => true,
-      'supports' => array('title', 'thumbnail'),
+      'supports' => array('title', 'excerpt', 'thumbnail'),
       'publicly_queryable' => false
     );
 
@@ -266,9 +264,6 @@
   }
 
   add_action( 'add_meta_boxes', 'ww_add_custom_box' );
-
-
-  // TODO: figure out where testimonials fit in
 
 
   // Custom Post Type -> TESTIMONIALS

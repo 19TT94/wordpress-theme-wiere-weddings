@@ -37,6 +37,7 @@ const hidden = document.getElementById("hc_field_list_items");
 const values = {};
 
 const appendBullet = ({ target: { id, value } }) => {
+  console.log(id, value);
   const current = hidden.value ? JSON.parse(hidden.value) : {};
   values[id] = value;
   hidden.value = JSON.stringify({ ...current, ...values });
@@ -48,7 +49,7 @@ const createInput = () => {
   input.placeholder = `Bullet ${index}`;
   input.setAttribute("name", `hc_field_list_item_${index}`);
   input.setAttribute("id", `hc_field_list_item_${index}`);
-  input.addEventListener("textarea", appendBullet);
+  input.addEventListener("change", appendBullet);
   return input;
 };
 
