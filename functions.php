@@ -146,7 +146,7 @@
   function home_content() {    
     $args = array(
       'labels' => array(
-        'name' => 'Home Content'
+        'name' => 'Home Posts'
       ),
       'menu_icon' => 'dashicons-admin-comments',
       'public' => true,
@@ -165,7 +165,7 @@
   function about() {    
     $args = array(
       'labels' => array(
-        'name' => 'About Content'
+        'name' => 'About Posts'
       ),
       'menu_icon' => 'dashicons-admin-comments',
       'public' => true,
@@ -185,7 +185,7 @@
   function services() {    
     $args = array(
       'labels' => array(
-        'name' => 'Services Content'
+        'name' => 'Service Posts'
       ),
       'menu_icon' => 'dashicons-admin-comments',
       'public' => true,
