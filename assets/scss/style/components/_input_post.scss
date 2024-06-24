@@ -17,6 +17,30 @@ textarea {
   width: 100%;
 }
 
+.image_width_label {
+  display: none;
+}
+
+#hc_field_image_width {
+  display: none;
+
+  input {
+    max-width: 75px;
+    margin-right: $pad / 2;
+  }
+}
+
+.inline {
+  display: flex;
+  align-items: center;
+  margin-bottom: $pad;
+}
+
+#hc_field_bullet_type {
+  display: none;
+  margin-bottom: $pad;
+}
+
 #add_bullet {
   background: $tertiary;
   color: $primary;
@@ -24,4 +48,5 @@ textarea {
   padding: $pad/3 $pad;
   margin-top: $pad/2;
   width: 150px;
+  display: none;
 }

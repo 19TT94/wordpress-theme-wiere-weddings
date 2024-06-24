@@ -17,6 +17,18 @@
 </select>
 <br />
 
+<label id="hc_field_image_width" for="hc_field_image_width">
+    Image Width
+    <div class="inline">
+        <input type="number" name="hc_field_image_width" value="40" />%
+    </div>
+</label>
+
+<select name="hc_field_bullet_type" id="hc_field_bullet_type">
+    <option value="dot" <?php selected( $selected, 'dot' ); ?>>Dot</option>
+    <option value="numbered" <?php selected( $selected, 'numbered' ); ?>>Circle</option>
+</select>
+
 <div class="field-wrapper">
     <textarea name="hc_field_paragraph" id="hc_field_paragraph"><?= $paragraph ?></textarea>
 </div>

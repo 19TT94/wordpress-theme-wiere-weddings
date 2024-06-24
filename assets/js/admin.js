@@ -2,6 +2,8 @@
 const selector = document.getElementById("hc_field_type");
 const paragraph = document.getElementById("hc_field_paragraph");
 const list = document.getElementById("hc_field_list");
+const imageWidth = document.getElementById("hc_field_image_width");
+const bulletType = document.getElementById("hc_field_bullet_type");
 const addButton = document.getElementById("add_bullet");
 
 const { value } = selector;
@@ -16,12 +18,24 @@ addButton.style.display = ["block-left", "block-right"].includes(value)
   : "none";
 
 const selectPostType = ({ target: { value } }) => {
-  // TODO: clear other sub options on change
+  // reset on change
+  paragraph.value = null;
+
+  if (list?.childNodes?.length > 0)
+    Array.from(list.childNodes)?.map((child) => {
+      child.value = null;
+    });
+
+  // set initial styles
   if (["text", "callout"].includes(value)) {
+    bulletType.style.display = "none";
+    addButton.style.display = "none";
     paragraph.style.display = "block";
     list.style.display = "none";
-    list.innerHTML = "";
   } else {
+    imageWidth.style.display = "block";
+    bulletType.style.display = "block";
+    addButton.style.display = "block";
     paragraph.style.display = "none";
     list.style.display = "block";
     paragraph.innerHTML = "";
