@@ -236,6 +236,22 @@
       );
     }
 
+    if ( array_key_exists( 'hc_field_image_width', $_POST ) ) {
+      update_post_meta(
+        $post_id,
+        'meta_image_width_key',
+        $_POST['hc_field_image_width']
+      );
+    }
+
+    if ( array_key_exists( 'hc_field_bullet_type', $_POST ) ) {
+      update_post_meta(
+        $post_id,
+        'meta_bullet_type_key',
+        $_POST['hc_field_bullet_type']
+      );
+    }
+
     if ( array_key_exists( 'hc_field_list_items', $_POST ) ) {
       update_post_meta(
         $post_id,

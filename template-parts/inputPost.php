@@ -25,7 +25,7 @@
 </label>
 
 <select name="hc_field_bullet_type" id="hc_field_bullet_type">
-    <option value="dot" <?php selected( $selected, 'dot' ); ?>>Dot</option>
+    <option value="disc" <?php selected( $selected, 'disc' ); ?>>Dot</option>
     <option value="numbered" <?php selected( $selected, 'numbered' ); ?>>Circle</option>
 </select>
 
