@@ -16,6 +16,12 @@ list.style.display = ["block-left", "block-right"].includes(value)
 addButton.style.display = ["block-left", "block-right"].includes(value)
   ? "block"
   : "none";
+imageWidth.style.display = ["block-left", "block-right"].includes(value)
+  ? "block"
+  : "none";
+bulletType.style.display = ["block-left", "block-right"].includes(value)
+  ? "block"
+  : "none";
 
 const selectPostType = ({ target: { value } }) => {
   // reset on change
