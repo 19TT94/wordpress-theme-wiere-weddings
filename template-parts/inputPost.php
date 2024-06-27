@@ -26,7 +26,7 @@
 
 <select name="hc_field_bullet_type" id="hc_field_bullet_type">
     <option value="disc" <?php selected( $selected, 'disc' ); ?>>Dot</option>
-    <option value="numbered" <?php selected( $selected, 'numbered' ); ?>>Circle</option>
+    <option value="numbered" <?php selected( $selected, 'numbered' ); ?>>Numbered</option>
 </select>
 
 <div class="field-wrapper">
