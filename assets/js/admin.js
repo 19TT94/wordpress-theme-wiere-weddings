@@ -56,9 +56,17 @@ const hidden = document.getElementById("hc_field_list_items");
 
 const values = {};
 
-const appendBullet = ({ target: { id, value } }) => {
+const appendBullet = ({ target }) => {
+  const { id, value } = target;
   const current = hidden.value ? JSON.parse(hidden.value) : {};
-  values[id] = value;
+
+  if (value?.length > 0) {
+    values[id] = value;
+  } else {
+    delete current[id];
+    target.remove();
+  }
+
   hidden.value = JSON.stringify({ ...current, ...values });
 };
 
