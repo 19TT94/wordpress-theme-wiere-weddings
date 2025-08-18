@@ -1,0 +1,146 @@
+.sticky-wrapper {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: z("peak");
+    background: $tertiary;
+    box-shadow: $shadow;
+    will-change: transform;
+  }
+  
+  .menu {
+    @include flex(row, nowrap, space-evenly, center);
+    position: relative;
+    width: 100%;
+    height: $nav;
+    z-index: 1;
+  
+    &-logo {
+      @include flex(row, nowrap, center, center);
+      position: relative;
+      height: 100%;
+  
+      a,
+      img {
+        height: 100%;
+      }
+    }
+  
+    &-links a {
+      color: $primary;
+    }
+  
+    &-switch {
+      @include strong();
+      position: absolute;
+      top: 0;
+      right: 0;
+      margin: 7px $pad;
+      width: min-content;
+  
+      svg {
+        fill: $primary;
+      }
+  
+      &-invert {
+        svg {
+          fill: $primary;
+        }
+      }
+    }
+  
+    &-mobile-content {
+      background: $primary;
+      position: absolute;
+      top: 0;
+      right: -100%;
+      padding-top: $nav;
+      height: 100vh;
+      width: 65%;
+      box-shadow: $shadow;
+      transition: all ease 0.5s;
+  
+      &-links {
+        @include flex(column, nowrap, center, center);
+  
+        a {
+          color: $tertiary;
+        }
+      }
+  
+      .social {
+        @include flex(row, nowrap, center, center);
+        margin: $pad;
+  
+        li {
+          padding: $pad;
+        }
+  
+        .theknot {
+          width: 20px;
+          height: 20px;
+          border-radius: 10px;
+        }
+      }
+    }
+  
+    &-links {
+      @include flex(row, nowrap, space-between, center);
+      width: 33%;
+      height: 100%;
+  
+      &-link {
+        padding: calc($pad/3);
+  
+        @include bp(4) {
+          padding: $pad;
+        }
+      }
+  
+      .schedule {
+        @include quiet();
+        border: 1px solid $tertiary;
+        border-radius: 20px;
+        padding: calc($pad/3) calc($pad/2);
+        text-wrap: nowrap;
+  
+        &:hover {
+          background: $primary;
+          color: $tertiary;
+        }
+      }
+  
+      .invert {
+        border: 1px solid $primary;
+      }
+    }
+  }
+  
+  .background {
+    background: $tertiary;
+    box-shadow: $shadow;
+    transition: all ease-in-out 0.5s;
+  
+    a {
+      color: $primary;
+    }
+  
+    .schedule {
+      border: 1px solid $primary;
+    }
+  }
+  
+  .invert a {
+    color: $primary;
+  }
+  
+  .hide {
+    display: none;
+  }
+  
+  .show {
+    right: 0;
+  }
+  

@@ -1,9 +1,35 @@
 <?php
-  /**
-   * Word Press Config
-   * 
-   * replace template with theme name
-   */
+
+/**
+ * Word Press Config
+ * 
+ * replace template with theme name
+ */
+
+  // Auto-detect environment based on domain or server variables
+  function detect_environment() {
+    $host = $_SERVER['HTTP_HOST'] ?? '';
+    $server_name = $_SERVER['SERVER_NAME'] ?? '';
+    
+    // Local development
+    if (strpos($host, 'localhost') !== false || 
+      strpos($host, '.local') !== false || 
+      strpos($host, '127.0.0.1') !== false ||
+      strpos($server_name, 'localhost') !== false) {
+      return 'development';
+    }
+
+    // Production
+    return 'production';
+  }
+
+  // Define environment-based variables
+  $environment = detect_environment();
+
+  define('ENVIRONMENT', $environment);
+  define('SITE_URI', $environment === 'production' 
+      ? 'https://wiere-weddings.com' 
+      : 'http://localhost:3000');
 
   // Settings
   require get_stylesheet_directory() . "/inc/customizer.php";
@@ -18,6 +44,11 @@
 
   add_action("after_setup_theme", "template_theme_support");
 
+  /************/
+  /* CSS & JS */
+  /************/
+
+  // Theme
   function register_style() {
     // declared in style.css comments
     $version = wp_get_theme()->get("Version");
@@ -48,19 +79,18 @@
 
   // Disable Posts  
   function my_remove_menu_pages() {
-    // remove_menu_page("index.php");                  //Dashboard
-    remove_menu_page("edit.php?post_type=page");    // Pages
-    remove_menu_page("edit.php");                   // Posts
-    remove_menu_page("edit-comments.php");          // Comments
-    // remove_menu_page("themes.php");                 // Appearance
-    remove_menu_page("plugins.php");                // Plugins
-    // remove_menu_page("users.php");                  // Users
-    // remove_menu_page("tools.php");                  // Tools
-    remove_menu_page("options-general.php");        // Settings
-       
+    // remove_menu_page('index.php');               // Dashboard
+    remove_menu_page('edit.php?post_type=page');    // Pages
+    remove_menu_page('edit.php');                   // Posts
+    remove_menu_page('edit-comments.php');          // Comments
+    // remove_menu_page('themes.php');              // Appearance
+    remove_menu_page('plugins.php');                // Plugins
+    // remove_menu_page('users.php');               // Users
+    // remove_menu_page('tools.php');               // Tools
+    remove_menu_page('options-general.php');        // Settings
   }
 
-  add_action( "admin_menu", "my_remove_menu_pages" );
+  add_action('admin_menu', 'my_remove_menu_pages');
 
   // Theme Nav Customization
   function disable_code_edit_action() {
@@ -182,12 +212,13 @@
       "labels" => array(
         "name" => "Testimonials"
       ),
-      "menu_icon" => "dashicons-admin-comments",
-      "public" => true,
-      "show_in_rest" => true,
-      "has_archive" => true,
-      "supports" => array("title", "excerpt"),
-      "publicly_queryable" => false
+      'menu_icon' => 'dashicons-admin-comments',
+      'public' => true,
+      'show_in_rest' => true,
+      'has_archive' => true,
+      'supports' => array('title', 'excerpt'),
+      'publicly_queryable' => false,
+      'menu_position' => 9
     );
 
     register_post_type("testimonial", $args);
