@@ -1,14 +1,17 @@
 const getHome = () => ({
-  data () {
+  data() {
     return {
       open: false
-    }
+    };
+  },
+  mounted() {
+    console.log("MOUNTED");
   },
   methods: {
-    toggleNav () {
-      this.open = !this.open
+    toggleNav() {
+      this.open = !this.open;
     }
-  } 
+  }
 });
 
 export default getHome;

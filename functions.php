@@ -32,50 +32,17 @@
       : 'http://localhost:3000');
 
   // Settings
-  require get_stylesheet_directory() . "/inc/customizer.php";
+  require get_stylesheet_directory() . '/inc/customizer.php';
   new Customizer();
 
   // Adds dynamic title tag support
   function template_theme_support() {
-    add_theme_support("title-tag");
-    add_theme_support("custom-logo");
-    add_theme_support("post-thumbnails");
+    add_theme_support('title-tag');
+    add_theme_support('custom-logo');
+    add_theme_support('post-thumbnails');
   }
 
-  add_action("after_setup_theme", "template_theme_support");
-
-  /************/
-  /* CSS & JS */
-  /************/
-
-  // Theme
-  function register_style() {
-    // declared in style.css comments
-    $version = wp_get_theme()->get("Version");
-    wp_enqueue_style("template-style", get_template_directory_uri() . "/style.css", array(), $version, "all");
-    wp_enqueue_style("template-sass", get_template_directory_uri() . "/dist/main.css", array(), $version, "all");
-  }
-
-  function add_type_attribute($tag, $handle, $src) {
-    // if not your script, do nothing and return original $tag
-    if ( "main" !== $handle ) {
-        return $tag;
-    }
-    // change the script tag by adding type="module" and return it.
-    $tag = '<script type="module" src="' . esc_url( $src ) . '"></script>';
-    return $tag;
-  }
-
-  function register_scripts() {
-    wp_enqueue_script("vue", "https://cdn.jsdelivr.net/npm/vue@3", null, null, true);
-    wp_enqueue_script("main", get_template_directory_uri() . "/assets/js/main.ts", "main", null, true);
-    add_filter("script_loader_tag", "add_type_attribute" , 10, 3);
-  }
-
-  add_action( "wp_enqueue_scripts", function() {
-    register_style();
-    register_scripts();
-  });
+  add_action('after_setup_theme', 'template_theme_support');
 
   // Disable Posts  
   function my_remove_menu_pages() {
@@ -90,50 +57,102 @@
     remove_menu_page('options-general.php');        // Settings
   }
 
-  add_action('admin_menu', 'my_remove_menu_pages');
-
   // Theme Nav Customization
   function disable_code_edit_action() {
-    define("DISALLOW_FILE_EDIT", TRUE);
+    define('DISALLOW_FILE_EDIT', TRUE);
   }
 
   add_action('init','disable_code_edit_action');
 
   function remove_customizer_settings( $wp_customize ){
-    $wp_customize->remove_panel("nav_menus");
-    $wp_customize->remove_section("custom_css");
+    $wp_customize->remove_panel('nav_menus');
+    $wp_customize->remove_section('custom_css');
   }
 
-  add_action( 'customize_register', 'remove_customizer_settings', 20 );
+  add_action('customize_register', 'remove_customizer_settings', 20);
+
+  /************/
+  /* CSS & JS */
+  /************/
+
+  // Theme
+  function register_style() {
+    // declared in style.css comments
+    $version = wp_get_theme()->get('Version');
+    wp_enqueue_style('template-style', get_template_directory_uri() . '/style.css', array(), $version, 'all');
+    wp_enqueue_style('template-sass', get_template_directory_uri() . '/dist/main.css', array(), $version, 'all');
+  }
+
+  function add_type_attribute_to_main($tag, $handle, $src) {
+    // if not your script, do nothing and return original $tag
+    if ( 'main' !== $handle ) {
+        return $tag;
+    }
+    // change the script tag by adding type="module" and return it.
+    $tag = '<script type="module" src="' . esc_url( $src ) . '"></script>';
+    return $tag;
+  }
+
+  function register_scripts() {
+    wp_enqueue_script('vue', 'https://cdn.jsdelivr.net/npm/vue@2', null, null, true);
+    wp_enqueue_script('main', get_template_directory_uri() . '/dist/main.js', 'main', null, true);
+    add_filter('script_loader_tag', 'add_type_attribute_to_main' , 10, 3);
+  }
+
+  add_action('wp_enqueue_scripts', function() {
+    register_style();
+    register_scripts();
+  });
+
+  // Admin
+  function register_admin_style() {
+    // declared in style.css comments
+    $version = wp_get_theme()->get('Version');
+    wp_enqueue_style('template-sass', get_template_directory_uri() . '/dist/admin.css', array(), $version, 'all');
+  }
+
+  function register_admin_scripts() {
+    wp_enqueue_script('admin-js', get_template_directory_uri() . '/dist/admin.js', array('jquery'), null, true);
+  }
+
+  add_action('admin_enqueue_scripts', function() {
+    register_admin_style();
+    register_admin_scripts();
+  });
+
+  /**************/
+  /* Post Types */
+  /**************/
 
   // Custom Post Type -> SLIDER
   function slider() {    
     $args = array(
-      "labels" => array(
-        "name" => "Home Slides"
+      'labels' => array(
+        'name' => 'Home Slides'
       ),
-      "menu_icon" => "dashicons-images-alt2",
-      "public" => true,
-      "show_in_rest" => true,
-      "has_archive" => true,
-      "supports" => array("title", "thumbnail"),
-      "publicly_queryable" => false
+      'menu_icon' => 'dashicons-images-alt2',
+      'public' => true,
+      'show_in_rest' => true,
+      'has_archive' => true,
+      'supports' => array('title', 'thumbnail'),
+      'publicly_queryable' => false
     );
 
-    register_post_type("slide", $args);
+    register_post_type('slide', $args);
   }
 
-  add_action("init", "slider");
+  add_action('init', 'slider');
 
+  // Add Featured Image (Slide) as API Endpoint
   function get_rest_featured_image( $object, $field_name, $request ) {
-    if( $object['featured_media'] ) {
+    if ( $object['featured_media'] ) {
         $img = wp_get_attachment_image_src( $object['featured_media'], 'app-thumb' );
         return $img[0];
     }
     return false;
   }
 
-  function register_rest_images(){
+  function register_rest_images() {
     register_rest_field(array('slide'),
         'featured_media_link',
         array(
@@ -144,86 +163,165 @@
     );
   }
 
-  add_action('rest_api_init', 'register_rest_images' );
- 
+  add_action('rest_api_init', 'register_rest_images');
+
   // Custom Post Type -> HOME PAGE CONTENT
   function home_content() {    
     $args = array(
-      "labels" => array(
-        "name" => "Home Content"
+      'labels' => array(
+        'name' => 'Home Posts'
       ),
-      "menu_icon" => "dashicons-admin-comments",
-      "public" => true,
-      "show_in_rest" => true,
-      "has_archive" => true,
-      "supports" => array("title"),
-      "publicly_queryable" => false
+      'menu_icon' => 'dashicons-admin-comments',
+      'public' => true,
+      'show_in_rest' => true,
+      'has_archive' => true,
+      'supports' => array('title', 'thumbnail'),
+      'publicly_queryable' => false
     );
 
-    register_post_type("home_content", $args);
+    register_post_type('home_content', $args);
   }
 
-  add_action("init", "home_content");
+  add_action('init', 'home_content');
 
-  function wporg_custom_box_html( $post ) {
-    $value = get_post_meta( $post->ID, '_wporg_meta_key', true );
-    ?>
-    <label for="wporg_field">Type</label>
-    <br />
-    <select name="wporg_field" id="wporg_field" class="postbox">
-      <option value="">Select...</option>
-      <option value="text" <?php selected( $value, 'text' ); ?>>Text Centered</option>
-      <option value="callout" <?php selected( $value, 'callout' ); ?>>Callout</option>
-      <option value="block-left" <?php selected( $value, 'block-left' ); ?>>Block Left</option>
-      <option value="block-right" <?php selected( $value, 'block-right' ); ?>>Block Right</option>
-    </select>
-    <?php
+  // Custom Post Type -> ABOUT
+  function about() {    
+    $args = array(
+      'labels' => array(
+        'name' => 'About Posts'
+      ),
+      'menu_icon' => 'dashicons-admin-comments',
+      'public' => true,
+      'show_in_rest' => true,
+      'has_archive' => true,
+      'supports' => array('title', 'thumbnail'),
+      'publicly_queryable' => false
+    );
+
+    register_post_type('about', $args);
   }
 
-  function wporg_add_custom_box() {
-    $screens = [ 'home_content' ];
+  add_action('init', 'about');
+
+
+  // Custom Post Type -> SERVICES
+  function services() {    
+    $args = array(
+      'labels' => array(
+        'name' => 'Service Posts'
+      ),
+      'menu_icon' => 'dashicons-admin-comments',
+      'public' => true,
+      'show_in_rest' => true,
+      'has_archive' => true,
+      'supports' => array('title', 'excerpt', 'thumbnail'),
+      'publicly_queryable' => false
+    );
+
+    register_post_type('services', $args);
+  }
+
+  add_action('init', 'services');
+
+  // Add to Api
+  function register_custom_posts() {
+    register_rest_field(array('home_content', 'about', 'services'),
+        'meta',
+        array(
+            'get_callback'    => 'get_meta',
+            'update_callback' => null,
+            'schema'          => null,
+        )
+    );
+  }
+
+  add_action('rest_api_init', 'register_custom_posts');
+
+  // Add Meta box to above post types
+  function ww_custom_box_html( $post ) {
+    get_template_part('template-parts/inputPost');
+  }
+
+  function ww_save_postdata( $post_id ) {
+    if ( array_key_exists( 'hc_field_type', $_POST ) ) {
+      update_post_meta(
+        $post_id,
+        'meta_type_key',
+        $_POST['hc_field_type']
+      );
+    }
+
+    if ( array_key_exists( 'hc_field_paragraph', $_POST ) ) {
+      update_post_meta(
+        $post_id,
+        'meta_paragraph_key',
+        $_POST['hc_field_paragraph']
+      );
+    }
+
+    if ( array_key_exists( 'hc_field_list_items', $_POST ) ) {
+      update_post_meta(
+        $post_id,
+        'meta_list_key',
+        $_POST['hc_field_list_items']
+      );
+    }
+
+    if ( array_key_exists( 'hc_field_image_width', $_POST ) ) {
+      update_post_meta(
+        $post_id,
+        'meta_image_width_key',
+        $_POST['hc_field_image_width']
+      );
+    }
+
+    if ( array_key_exists( 'hc_field_bullet_type', $_POST ) ) {
+      update_post_meta(
+        $post_id,
+        'meta_bullet_type_key',
+        $_POST['hc_field_bullet_type']
+      );
+    }
+  }
+
+  add_action( 'save_post', 'ww_save_postdata' );
+
+  function get_meta( $data ) {
+    return get_post_meta( $data['id'], '', '' );
+  }
+
+  function ww_add_custom_box() {
+    $screens = [ 'home_content', 'about', 'services' ];
     foreach ( $screens as $screen ) {
       add_meta_box(
-        'wporg_box_id', // Unique ID
+        'ww_field_type', // Unique ID
         'Content', // Box title
-        'wporg_custom_box_html',  // Content callback, must be of type callable
+        'ww_custom_box_html',  // Content callback, must be of type callable
         $screen // Post type
       );
     }
   }
 
-  add_action( 'add_meta_boxes', 'wporg_add_custom_box' );
+  add_action( 'add_meta_boxes', 'ww_add_custom_box' );
 
-  function wporg_save_postdata( $post_id ) {
-    if ( array_key_exists( 'wporg_field', $_POST ) ) {
-      update_post_meta(
-        $post_id,
-        '_wporg_meta_key',
-        $_POST['wporg_field']
-      );
-    }
-  }
-
-  add_action( 'save_post', 'wporg_save_postdata' );
 
   // Custom Post Type -> TESTIMONIALS
   function testimonial() {    
     $args = array(
-      "labels" => array(
-        "name" => "Testimonials"
+      'labels' => array(
+        'name' => 'Testimonials'
       ),
       'menu_icon' => 'dashicons-admin-comments',
       'public' => true,
       'show_in_rest' => true,
       'has_archive' => true,
       'supports' => array('title', 'excerpt'),
-      'publicly_queryable' => false,
-      'menu_position' => 9
+      'publicly_queryable' => false
     );
 
-    register_post_type("testimonial", $args);
+    register_post_type('testimonial', $args);
   }
 
-  add_action("init", "testimonial");
+  add_action('init', 'testimonial');
   
 ?>
