@@ -1,18 +1,18 @@
-// Mobile menu functionality
+// Toggle menu functionality - works on all screen sizes
 document.addEventListener('DOMContentLoaded', function() {
-  const mobileToggle = document.getElementById('mobile-menu-toggle');
-  const mobileMenu = document.getElementById('mobile-menu');
+  const menuToggle = document.getElementById('menu-toggle');
+  const menu = document.getElementById('menu');
   
-  if (mobileToggle && mobileMenu) {
-    mobileToggle.addEventListener('click', function() {
-      mobileMenu.classList.toggle('show');
+  if (menuToggle && menu) {
+    menuToggle.addEventListener('click', function() {
+      menu.classList.toggle('show');
     });
   }
   
   // Close menu when clicking outside
   document.addEventListener('click', function(e) {
-    if (!mobileToggle.contains(e.target) && !mobileMenu.contains(e.target)) {
-      mobileMenu.classList.remove('show');
+    if (!menuToggle.contains(e.target) && !menu.contains(e.target)) {
+      menu.classList.remove('show');
     }
   });
   

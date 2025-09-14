@@ -15,7 +15,8 @@
 
 
     <section class="not-found">
-      <h1 class="page-title">404 Page not found.</h1>
+      <h1 class="page-title">404</h1>
+      <h4 class="page-subtitle">Page not found.</h2>
       <a class="not-found-button" href="/">Return Home</a>
 	  </section><!-- .page-header -->
 

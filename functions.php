@@ -47,15 +47,61 @@
   // Disable Posts  
   function my_remove_menu_pages() {
     // remove_menu_page('index.php');               // Dashboard
-    remove_menu_page('edit.php?post_type=page');    // Pages
+    // remove_menu_page('edit.php?post_type=page'); // Pages - REMOVED to keep Pages menu
     remove_menu_page('edit.php');                   // Posts
     remove_menu_page('edit-comments.php');          // Comments
     // remove_menu_page('themes.php');              // Appearance
     remove_menu_page('plugins.php');                // Plugins
     // remove_menu_page('users.php');               // Users
     // remove_menu_page('tools.php');               // Tools
-    remove_menu_page('options-general.php');        // Settings
+    // remove_menu_page('options-general.php');        // Settings
   }
+
+  add_action('admin_menu', 'my_remove_menu_pages');
+
+  // Rename Pages menu to Blog Pages and position it after Services
+  function rename_and_position_pages_menu() {
+    global $menu;
+    
+    // Find and rename Pages to Blog Pages
+    foreach ($menu as $key => $value) {
+      if ($value[0] == 'Pages') {
+        $menu[$key][0] = 'Blog Pages';
+      }
+    }
+    
+    // Reorder menu items to put Pages after Services
+    $pages_item = null;
+    $services_item = null;
+    
+    foreach ($menu as $key => $value) {
+      if ($value[2] == 'edit.php?post_type=page') {
+        $pages_item = $menu[$key];
+        unset($menu[$key]);
+      }
+      if ($value[2] == 'edit.php?post_type=services') {
+        $services_item = $key;
+      }
+    }
+    
+    // Insert Pages after Services
+    if ($pages_item && $services_item !== null) {
+      $new_menu = array();
+      $inserted = false;
+      
+      foreach ($menu as $key => $value) {
+        $new_menu[$key] = $value;
+        if ($key == $services_item && !$inserted) {
+          $new_menu[] = $pages_item;
+          $inserted = true;
+        }
+      }
+      
+      $menu = $new_menu;
+    }
+  }
+
+  add_action('admin_menu', 'rename_and_position_pages_menu', 999);
 
   // Theme Nav Customization
   function disable_code_edit_action() {
@@ -75,13 +121,15 @@
   /* CSS & JS */
   /************/
 
-  // Theme
+  // Page Styles & JS
   function register_style() {
-    // declared in style.css comments
     $version = wp_get_theme()->get('Version');
     wp_enqueue_style('template-style', get_template_directory_uri() . '/style.css', array(), $version, 'all');
     wp_enqueue_style('template-sass', get_template_directory_uri() . '/dist/main.css', array(), $version, 'all');
+    wp_enqueue_style('font-awesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css', array(), '6.4.0', 'all');
   }
+
+  // add_action('wp_enqueue_scripts', 'register_style');
 
   function add_type_attribute_to_main($tag, $handle, $src) {
     // if not your script, do nothing and return original $tag
@@ -94,7 +142,6 @@
   }
 
   function register_scripts() {
-    wp_enqueue_script('vue', 'https://cdn.jsdelivr.net/npm/vue@2', null, null, true);
     wp_enqueue_script('main', get_template_directory_uri() . '/dist/main.js', 'main', null, true);
     add_filter('script_loader_tag', 'add_type_attribute_to_main' , 10, 3);
   }
@@ -104,7 +151,7 @@
     register_scripts();
   });
 
-  // Admin
+  // Admin Styles & JS
   function register_admin_style() {
     // declared in style.css comments
     $version = wp_get_theme()->get('Version');
@@ -211,6 +258,7 @@
         'name' => 'Service Posts'
       ),
       'menu_icon' => 'dashicons-admin-comments',
+      'menu_position' => 25, // Add this line
       'public' => true,
       'show_in_rest' => true,
       'has_archive' => true,
@@ -303,25 +351,5 @@
   }
 
   add_action( 'add_meta_boxes', 'ww_add_custom_box' );
-
-
-  // Custom Post Type -> TESTIMONIALS
-  function testimonial() {    
-    $args = array(
-      'labels' => array(
-        'name' => 'Testimonials'
-      ),
-      'menu_icon' => 'dashicons-admin-comments',
-      'public' => true,
-      'show_in_rest' => true,
-      'has_archive' => true,
-      'supports' => array('title', 'excerpt'),
-      'publicly_queryable' => false
-    );
-
-    register_post_type('testimonial', $args);
-  }
-
-  add_action('init', 'testimonial');
   
 ?>

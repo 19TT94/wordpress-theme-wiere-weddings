@@ -21,38 +21,21 @@
 <div class="sticky-wrapper">
   <!-- Navigation Bar -->
   <nav class="menu" id="main-navigation">
-    <ul class="menu-links">
-      <li class="menu-links-link">
-        <a href="<?php echo SITE_URI . '/about'; ?>">About</a>
-      </li>
-      <li class="menu-links-link">
-        <a href="<?php echo SITE_URI . '/services'; ?>">Services</a>
-      </li>
-    </ul>
-    
     <div class="menu-logo">
       <a href="<?php echo SITE_URI; ?>">
-        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/wiere-weddings-black.png" alt="Wiere Weddings" />
+        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/wiere-weddings-white.png" alt="Wiere Weddings" />
       </a>
     </div>
     
-    <ul class="menu-links">
-      <li class="menu-links-link">
-        <a href="<?php echo SITE_URI . '/contact'; ?>">Contact</a>
-      </li>
-      <li class="menu-links-link">
-        <a href="<?php echo SITE_URI . '/schedule'; ?>" class="schedule">Book Consultation</a>
-      </li>
-    </ul>
-    
-    <button type="button" class="menu-switch" id="mobile-menu-toggle">
+    <button type="button" class="menu-switch" id="menu-toggle">
       <i class="fas fa-bars"></i>
     </button>
   </nav>
 </div>
 
-<div class="menu-mobile-content" id="mobile-menu">
-  <ul class="menu-mobile-content-links">
+<!-- Toggle Menu - Available on all screen sizes -->
+<div class="menu-content" id="menu">
+  <ul class="menu-content-links">
     <li class="menu-links-link">
       <a href="<?php echo SITE_URI . '/about'; ?>">About</a>
     </li>

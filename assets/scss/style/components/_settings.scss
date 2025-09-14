@@ -1,16 +1,20 @@
 h1 {
   @include loud();
   color: $primary;
+  font-family: "Playfair Display", serif;
 }
 
-h2 {
+h2,
+h3 {
   @include strong();
   color: $primary;
+  font-family: "Ms Madi", cursive;
 }
 
-h3 {
-  @include bold();
+h4 {
+  @include normal();
   color: $primary;
+  font-family: "Poppins", sans-serif;
 }
 
 p,
@@ -20,6 +24,7 @@ button,
 li {
   @include normal();
   color: $primary;
+  font-family: "Poppins", sans-serif;
 }
 
 label {

@@ -1,19 +1,7 @@
 #main {
-    background-color: $secondary;
+    background-color: $tertiary;
     padding: $pad;
     position: relative;
     min-height: 100vh;
-
-    .entry {
-        &-title {
-            color: $tertiary;
-        }
-
-        &-content {
-            p {
-                color: $tertiary;
-            }
-        }
-    }
 }
 

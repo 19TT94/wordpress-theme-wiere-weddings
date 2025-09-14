@@ -1,12 +1,15 @@
-<main id="main" class="site-main">
+<main>
+    <link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/dist/main.css" type="text/css" media="all" />
     <section class="home">
         <div class="admin-readme">
-            <h1>Wiere Weddings Admin Theme</h1>
-            <p class="subtitle">A WordPress CMS for externally hosted wedding websites</p>
+            <h1>Wiere Weddings Admin</h1>
+            <p class="subtitle">A WordPress CMS for wiereweddings.com</p>
             
             <div class="readme-section">
-                <h2>🎯 What This Theme Does</h2>
-                <p>This WordPress theme serves as a <strong>Content Management System (CMS)</strong> for your wedding business website. While the actual website is hosted externally, this WordPress installation allows you to:</p>
+                <h2>What This Theme Does</h2>
+                <p>
+                    This WordPress theme serves as a <strong>Content Management System (CMS)</strong> for wiereweddings.com.
+                    While the actual website is hosted externally, this WordPress installation allows you to:</p>
                 <ul>
                     <li>Manage all your website content through a familiar WordPress interface</li>
                     <li>Update images, text, and information without touching code</li>
@@ -16,7 +19,7 @@
             </div>
 
             <div class="readme-section">
-                <h2>📋 Available Admin Menu Items</h2>
+                <h2>Available Admin Menu Items</h2>
                 
                 <div class="menu-item">
                     <h3>🏠 Dashboard</h3>
@@ -49,16 +52,16 @@
             </div>
 
             <div class="readme-section">
-                <h2>📝 Content Management</h2>
+                <h2>Content Management</h2>
                 
                 <div class="content-type">
-                    <h3>🖼️ Home Slides</h3>
+                    <h3>Home Slides</h3>
                     <p>Create and manage the rotating banner images on your homepage. Each slide can have a title and featured image.</p>
                     <p><strong>Supports:</strong> Title, Featured Image</p>
                 </div>
 
                 <div class="content-type">
-                    <h3>🏠 Home Posts</h3>
+                    <h3>Home Posts</h3>
                     <p>Manage the main content sections on your homepage. Each post can be configured with different layouts:</p>
                     <ul>
                         <li><strong>Text Centered:</strong> Centered text content with optional image</li>
@@ -69,21 +72,15 @@
                 </div>
 
                 <div class="content-type">
-                    <h3>ℹ️ About Posts</h3>
+                    <h3>About Posts</h3>
                     <p>Manage content for your About page sections. Same layout options as Home Posts.</p>
                     <p><strong>Supports:</strong> Title, Featured Image, Custom Content Fields</p>
                 </div>
 
                 <div class="content-type">
-                    <h3>💼 Service Posts</h3>
+                    <h3>Service Posts</h3>
                     <p>Showcase your wedding services and packages. Includes excerpt support for brief descriptions.</p>
                     <p><strong>Supports:</strong> Title, Excerpt, Featured Image, Custom Content Fields</p>
-                </div>
-
-                <div class="content-type">
-                    <h3>💬 Testimonials</h3>
-                    <p>Display client reviews and feedback. Perfect for building trust with potential clients.</p>
-                    <p><strong>Supports:</strong> Title, Excerpt</p>
                 </div>
             </div>
 
@@ -132,18 +129,6 @@
                     <li><strong>Backup:</strong> Your content is automatically saved as you work, but consider regular backups</li>
                     <li><strong>Mobile First:</strong> All content layouts are designed to work well on mobile devices</li>
                 </ul>
-            </div>
-
-            <div class="readme-section">
-                <h2>🆘 Need Help?</h2>
-                <p>If you need assistance with:</p>
-                <ul>
-                    <li>Adding or editing content</li>
-                    <li>Changing your site's appearance</li>
-                    <li>Managing images or media</li>
-                    <li>Any other WordPress questions</li>
-                </ul>
-                <p>Contact your website developer or refer to WordPress documentation for general guidance.</p>
             </div>
         </div>
     </section>
