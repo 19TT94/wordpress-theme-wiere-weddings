@@ -1,81 +1,46 @@
-.contact {
-  padding: $pad * 2;
-  display: flex;
-  background: $tertiary;
+.footer {
+  @include flex(row, wrap, space-between, center);
+  width: 100%;
+  text-align: center;
+  background: $secondary;
+  padding: $pad;
+  position: absolute;
+  bottom: 0;
 
-  flex-direction: column;
-
-  @include bp(1) {
-    flex-direction: row;
-    flex-wrap: wrap;
-  }
-
-  &-section {
+  .col {
     display: flex;
     flex-direction: column;
-    width: 100%;
+    justify-content: space-around;
+    width: 33.33%;
+    height: 75px;
 
-    @include bp(1) {
-      width: 33.33%;
+    li {
+      @include quiet();
+      color: $black;
+      line-height: 1.4;
+      a {
+        @include quiet();
+      }
     }
-  }
-
-  .left {
-    justify-content: center;
-    align-items: center;
-
-    @include bp(1) {
-      align-items: start;
-    }
-  }
-
-  .center {
-    align-items: center;
-    justify-content: start;
-  }
-
-  .right {
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-
-    @include bp(1) {
-      align-items: end;
-      flex-direction: column;
-      justify-content: start;
-    }
-
-    i:before {
-      @include bold();
-    }
-  }
-
-  .logo {
-    padding: $pad;
-    color: $primary;
 
     img {
-      max-width: 200px;
+      width: 60px;
+      object-fit: cover;
+      margin: 0 auto;
     }
 
-    .descriptor {
-      text-align: center;
+    .theknot {
+      width: 20px;
+      height: 20px;
+      border-radius: 10px;
     }
   }
-}
 
-.address {
-  display: inline;
-}
+  ul:first-child {
+    align-items: start;
+  }
 
-.copy {
-  width: 100%;
-  background: $primary;
-
-  p {
-    color: $white;
-    padding: $pad;
-    margin: 0 auto;
-    text-align: center;
+  ul:last-child {
+    align-items: end;
   }
 }

@@ -1,17 +1,22 @@
 # Wiere Weddings
 
-Default theme configuration with Vue and Sass.
+Wordpress Theme that serces as a CMS for wiereweddings.com
 
 ## Development
+
+Compile for development
+
+```sh
+npm run dev
+```
 
 Compile and watch Sass and JS
 
 ```sh
-npx mix watch
+npm run watch
 ```
 
-## Production Build
+## Deploy
 
 ```sh
-npx mix build
-```
+npm run production

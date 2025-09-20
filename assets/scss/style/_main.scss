@@ -8,5 +8,101 @@
 @import "components/typography";
 @import "components/variables";
 @import "components/settings";
-@import "components/home";
+@import "components/header";
+@import "components/page";
 @import "components/footer";
+
+// Admin README Styles - Aligned with theme design system
+.admin-readme {
+    margin: 0 auto;
+    padding: $pad;
+    background: $tertiary;
+
+    h1 {
+        margin-bottom: calc($pad/2);
+        text-align: center;
+    }
+
+    .subtitle {
+        text-align: center;
+        margin-bottom: $pad;
+        font-weight: 300;
+    }
+
+    .readme-section {
+        background: $tertiary;
+        border-radius: $radius;
+        padding: $pad;
+        margin-bottom: $pad;
+        box-shadow: $shadow;
+        border-left: 4px solid $accent;
+
+        h2 {
+            margin-bottom: calc($pad/2);
+            display: flex;
+            align-items: center;
+            gap: calc($pad/3);
+        }
+
+        h3 {
+            margin: calc($pad * 0.8) 0 calc($pad/2) 0;
+            display: flex;
+            align-items: center;
+            gap: calc($pad/4);
+        }
+
+        h4 {
+            font-weight: 600;
+            margin: calc($pad/2) 0 calc($pad/3) 0;
+        }
+
+        p {
+            margin-bottom: calc($pad/2);
+        }
+
+        ul {
+            margin: calc($pad/2) 0;
+            padding-left: calc($pad * 0.7);
+
+            li {
+                margin-bottom: calc($pad/4);
+            }
+        }
+    }
+
+    .menu-item, .content-type, .layout-option {
+        border: 1px solid $accent;
+        border-radius: $radius;
+        padding: $pad;
+        margin: calc($pad/2) 0;
+
+        h3, h4, p {
+            margin-top: 0;
+        }
+    }
+
+    // Print styles
+    @media print {
+        .admin-readme {
+            box-shadow: none;
+            padding: 0;
+        }
+
+        .readme-section {
+            box-shadow: none;
+            border: 1px solid $secondary;
+            page-break-inside: avoid;
+        }
+    }
+}
+
+.not-found {
+    @include flex(column, nowrap, center, center);
+    width: 100%;
+    background: $tertiary;
+    margin-top: $pad*4;
+
+    .page-subtitle {
+        margin-top: $pad;
+    }
+}
