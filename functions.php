@@ -31,6 +31,8 @@
       ? 'https://wiere-weddings.com' 
       : 'http://localhost:3000');
 
+  require get_template_directory() . '/inc/seed-content.php';
+
   // Settings
   require get_stylesheet_directory() . '/inc/customizer.php';
   new Customizer();
@@ -40,6 +42,7 @@
     add_theme_support('title-tag');
     add_theme_support('custom-logo');
     add_theme_support('post-thumbnails');
+    add_image_size('app-thumb', 1200, 800, true);
   }
 
   add_action('after_setup_theme', 'template_theme_support');
@@ -190,23 +193,43 @@
 
   add_action('init', 'slider');
 
-  // Add Featured Image (Slide) as API Endpoint
+  // Add Featured Image as API Endpoint
   function get_rest_featured_image( $object, $field_name, $request ) {
-    if ( $object['featured_media'] ) {
-        $img = wp_get_attachment_image_src( $object['featured_media'], 'app-thumb' );
+    if ( ! empty( $object['featured_media'] ) ) {
+      $img = wp_get_attachment_image_src( $object['featured_media'], 'app-thumb' );
+
+      if ( ! $img ) {
+        $img = wp_get_attachment_image_src( $object['featured_media'], 'full' );
+      }
+
+      if ( $img ) {
         return $img[0];
+      }
     }
-    return false;
+
+    if ( ENVIRONMENT !== 'development' ) {
+      return false;
+    }
+
+    $theme_image = get_post_meta( $object['id'], '_ww_theme_image', true );
+
+    if ( ! $theme_image ) {
+      $title = is_array( $object['title'] ) ? ( $object['title']['rendered'] ?? '' ) : ( $object['title'] ?? '' );
+      $theme_image = ww_get_environment_default_image( $object['type'], wp_strip_all_tags( $title ) );
+    }
+
+    return ww_theme_image_url( $theme_image, 'app-thumb' );
   }
 
   function register_rest_images() {
-    register_rest_field(array('slide'),
-        'featured_media_link',
-        array(
-            'get_callback'    => 'get_rest_featured_image',
-            'update_callback' => null,
-            'schema'          => null,
-        )
+    register_rest_field(
+      array( 'slide', 'home_content', 'about', 'services' ),
+      'featured_media_link',
+      array(
+        'get_callback'    => 'get_rest_featured_image',
+        'update_callback' => null,
+        'schema'          => null,
+      )
     );
   }
 
@@ -335,7 +358,23 @@
   add_action( 'save_post', 'ww_save_postdata' );
 
   function get_meta( $data ) {
-    return get_post_meta( $data['id'], '', '' );
+    $post_id = $data['id'];
+    $fields  = array(
+      'meta_type_key',
+      'meta_paragraph_key',
+      'meta_list_key',
+      'meta_image_width_key',
+      'meta_bullet_type_key',
+    );
+
+    $meta = array();
+
+    foreach ( $fields as $field ) {
+      $values = get_post_meta( $post_id, $field, false );
+      $meta[ $field ] = ! empty( $values ) ? $values : array( '' );
+    }
+
+    return $meta;
   }
 
   function ww_add_custom_box() {
